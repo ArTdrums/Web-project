@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список фильмов</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+</head>
+<body>
+<div style="border: 1px solid black; width: 80%; margin: auto; display : block">
+
+    <header>
+        <img src="/media/image/osnova/shapka1.jpg " width="80%">
+        {% if user.is_authenticated %}
+        <p>Привет {{ user.username }}, вы авторизованы на сайте! </p>
+        <p><a href="{% url 'logout' %}">Выйти</a>
+        </p>
+        {% else %}
+        <p>Вам неоходимо авторизоваться</p>
+        <a href="{% url 'signup' %}">Регистрация</a>
+        <p><a href="{% url 'login' %}">Войти</a>
+            </p>
+        {% endif %}
+    </header>
+    {% for film in film_list %}
+    <div class="row">
+        <div class="col-3">
+            <p>Постер фильма:</p>
+            <img src="{{ film.imag.url }}" width="100px" class="img_thumbnail rounded mx-auto d-block " width="100px">
+        </div>
+        <div class="col-9">
+
+            <h2 style="font: 30px courier bold"><a href="/{{ film.url}}" style="text-decoration:none; color: black">{{ film.title}}</a></h2>
+            <p>{{ film.data_puble  }}</p>
+
+            <p style="font: 20px roboto">
+                {% for direct in film.direction.all %}
+                {{ direct.name }}
+            {% endfor %}
+            </p>
+            <p>
+                 {% for genre in film.genre.all %}
+                    {{ genre.name }}
+                {% endfor %}
+            </p>
+
+
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>

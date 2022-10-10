@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Название фильма: {{ film.title}}</h2>
+<p>Описание фильма : {{ film.descriptions}} </p>
+<p>Дата выхода фильма :{{ film.data_puble}} </p>
+<p>
+    Режисеры:
+    {% for direct in film.descriptions.all %}
+        {{ direct.name }}
+    {% endfor %}
+</p>
+<p>
+    Жанры:
+    {% for genre in film.genre.all %}
+        {{ genre.name }}
+    {% endfor %}
+</p>
+<p>
+    Постер:
+    <img src="{{ film.imag.url }}" width="200px">
+</p>
+<div>
+    <span>Оставить отзыв</span>
+    <form action="{% url 'add_review' film.id %}" method="post">
+        {% csrf_token %}
+        <div>
+            <label> Ваш отзыв</label>
+            <textarea name="text_reviews"></textarea>
+        </div>
+        <div>
+            <label> Ваше имя</label>
+            <input type="text" name="name">
+        </div>
+        <div>
+            <label> Ваш email</label>
+            <input type="email" name="email">
+            <div>
+                <input type="submit">
+            </div>
+        </div>
+
+
+
+
+    </form>
+    <div>
+        {% for reviews in film.reviews_set.all %}
+        <div>
+            <h5>{{ reviews.name }}</h5>
+            <p>{{ reviews.text_reviews }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
